@@ -32,7 +32,9 @@ namespace WizLibDataAccess.Data
 
         public DbSet<FluentAuthor> FluentAuthors { get; set; }
 
-        public DbSet<FluentPublisher> FluentPublishers { get; set; } 
+        public DbSet<FluentPublisher> FluentPublishers { get; set; }
+
+        public DbSet<Test> Test { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

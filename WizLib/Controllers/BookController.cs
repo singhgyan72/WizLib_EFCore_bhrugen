@@ -26,16 +26,23 @@ namespace WizLib.Controllers
             //foreach (var book in books)
             //{
             //    //Least efficient: for each book query will be executed to load publisher
-            //    book.Publisher = _dbContext.Publishers.FirstOrDefault(i => i.Publisher_Id == book.Publisher_Id);
+            //    //book.Publisher = _dbContext.Publishers.FirstOrDefault(i => i.Publisher_Id == book.Publisher_Id);
 
             //    //More efficient: Explicit loading
             //    //will execute query for the distinct publishers only
             //    _dbContext.Entry(book).Reference(i => i.Publisher).Load();
+            //    _dbContext.Entry(book).Collection(i => i.BookAuthors).Load();
+            //    foreach(var bookAuth in book.BookAuthors)
+            //    {
+            //        _dbContext.Entry(bookAuth).Reference(i => i.Author).Load();
+            //    }
             //}
 
             //Most efficient: Eager loading
             //everything will be combined in one single query using joins
-            List<Book> books = _dbContext.Books.Include(i => i.Publisher).ToList();
+            List<Book> books = _dbContext.Books.Include(i => i.Publisher)
+                                            .Include(i => i.BookAuthors).ThenInclude(i => i.Author)
+                                            .ToList();
 
             return View(books);
         }
